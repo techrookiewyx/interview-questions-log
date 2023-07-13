@@ -190,3 +190,35 @@
 	- A：|| 和 && 首先会对第一个操作数执行条件判断，如果其不是布尔值就先进行 ToBoolean 强制类型转换，然后再判断。|| 和 && 返回它们其中一个操作数的值，而非条件判断的结果。
 		- 对于 || 来说，如果条件判断结果为 true 就返回第一个操作数的值，如果为 false 就返回第二个操作数的值。
 		- && 则相反，如果条件判断结果为 true 就返回第二个操作数的值，如果为 false 就返回第一个操作数的值。
+
+19. 同步和异步的区别？
+	- A：
+		- 同步：同步指的是当一段代码在执行某个请求的时候，如果这个请求需要等待一段时间才能返回，那么这个进程会一直等待下去，直到消息返回为止再继续向下执行。
+		- 异步：异步指的是当一段代码在执行某个请求的时候，如果这个请求需要等待一段时间才能返回，这个时候会继续往下执行，不会阻塞等 待消息的返回，当消息返回时系统再通知进程进行处理。
+20. 说一说JavaScript中原型，原型链 ? 有什么特点？
+	- A：
+		- 当我们去访问一个对象的属性时，它不仅会在对象本身还会对象的原型，以及原型的原型上寻找，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾（也就是说某些属性和方法不是存储在实例对象本身中的，而是在Object的构造函数的`prototype`属性上），如下例：
+			```js
+			function doSomething(){}
+			console.log( doSomething.prototype );
+			
+			//输出如下结果
+			{
+			    constructor: ƒ doSomething(),
+			    __proto__: {
+			        constructor: ƒ Object(),
+			        hasOwnProperty: ƒ hasOwnProperty(),
+			        isPrototypeOf: ƒ isPrototypeOf(),
+			        propertyIsEnumerable: ƒ propertyIsEnumerable(),
+			        toLocaleString: ƒ toLocaleString(),
+			        toString: ƒ toString(),
+			        valueOf: ƒ valueOf()
+			    }
+			}
+			```
+			可以得出对象内部有一个指针指向（这个指针被称为对象的原型）构造函数的`prototype`属性对应的值（原型对象），原型对象的constructor属性指向该函数。
+		- 而原型对象也可能拥有原型，并从中继承方法和属性，一层一层、以此类推。这种关系常被称为原型链 (prototype chain)，原型链是寻找对象属性的链，原型链的尽头一般来说都是Object.prototype 所以这就 是我们新建的对象为什么能够使用 toString() 等方法的原因。
+		- 特点：JavaScript对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与 之相关的对象也会继承这一改变。
+
+		总结：一切对象都是继承自`Object`对象，`Object` 对象直接继承根源对象` null`
+
