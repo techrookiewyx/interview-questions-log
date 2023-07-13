@@ -136,3 +136,46 @@
 	- A：
 		- max-width（height）会覆盖width（height），即使width（height）是行类样式或者设置了!important。
 		- min-width（height）会覆盖max-width（height），此规则发生在min-width（height）和max-width（height）冲突的时候。
+19. 说说em/px/rem/vh/vw区别?
+	- A：在传统的项目开发中，我们一般只用到`px`、`%`、`em`这几个单位。从CSS3开始，浏览器对计量单位新增了对`rem`、`vw`、`vh`、`vm`等新的单位。
+
+		- px：表示像素，像素就是显示器上的一个个小点，每个像素点都是大小等同的，像素是一个绝对长度单位（px的大小和元素其他属性无关）。
+		- em：em是一个相对长度单位，根据当前元素（对象）的字体大小来计算（若当前元素未设置字体大小，则按照浏览器默认字体大小计算，则1em=16px）。
+		- rem：相对单位，与em不同的是，rem永远根据根元素（HTML）的字体大小来计算。
+		- vh和vw：vh和vw就是根据窗口的宽度来计算，将窗口分为100份，100vw就代表满宽（vw始终根据窗口的宽），vh同理。通常可以将窗口分为PC端（浏览器的可视区域）和移动端（布局视口）
+
+		总结：
+
+		> **px**：绝对单位，页面按精确像素展示
+		>
+		> **em**：相对单位，基准点为父节点字体的大小，如果自身定义了`font-size`按自身来计算，整个页面内`1em`不是一个固定的值
+		>
+		> **rem**：相对单位，可理解为`root em`, 相对根节点`html`的字体大小来计算
+		>
+		> **vh、vw**：主要用于页面视口大小布局，在页面布局上更加方便简单
+20. 如何实现单行／多行文本溢出的省略（...）？
+	- A：主要通过`overflow`属性和`text-overfilw`属性来处理
+		```css
+		/*单行文本溢出*/
+		p {
+		  overflow: hidden;
+		  text-overflow: ellipsis; /* 显示省略符号来代表溢出的文本 */
+		  white-space: nowrap;
+		}
+		
+		/*多行文本溢出*/
+		p {
+		  position: relative;
+		  line-height: 1.5em;
+		  /*高度为需要显示的行数乘行高，比如这里我们显示两行，则为3*/
+		  height: 3em;
+		  overflow: hidden;
+		}
+		p::after {
+		  content: '...';
+		  position: absolute;
+		  bottom: 0;
+		  right: 0;
+		  background-color: #fff;
+		}
+		```
