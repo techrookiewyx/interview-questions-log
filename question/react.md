@@ -169,5 +169,84 @@
 			2. 所以会先执行原生事件，然后处理 React 事件
 			3. 最后真正执行 document 上挂载的事件
 20. 为什么说React中的props是只读的？
-	- A：这样保证react的单向数据流的设计模式，使状态更可预测。如果允许自组件修改，那么一个父组件将状态传递给好几个子组件，这几个子组件随意修改，就完全不可预测，不知道在什么地方修改了状态。为了保证组件像纯函数一样没有响应的副作用，所以我们必须像纯函数一样保护 props 不被修改，
+	- A：这样保证react的单向数据流的设计模式，使状态更可预测。如果允许组件修改，那么一个父组件将状态传递给好几个子组件，这几个子组件随意修改，就完全不可预测，不知道在什么地方修改了状态。为了保证组件像纯函数一样没有响应的副作用，所以我们必须像纯函数一样保护 props 不被修改。
+21. React事件绑定的方式有哪些？区别？
+	- A：在react中，事件名都是用小驼峰格式进行书写，且事件的绑定使用`{}`包裹，其绑定方法如下（类组件中）：
 
+		- render方法中使用bind，在其中给某个组件/元素一个`onClick`属性，它并不会自定绑定其`this`到当前组件，可以通过在事件函数后使用`.bind(this)`将`this`绑定到当前组件中
+
+			```jsx
+			class App extends React.Component{
+			    handleClick() {
+			    console.log('this > ', this);
+			  }
+			  render() {
+			    return (
+			      <div onClick={this.handleClick.bind(this)}>test</div>
+			    )
+			  }
+			}
+			```
+
+			该绑定方式在组件每次render渲染时，都会重新进行this的绑定，影响性能
+
+		- render方法中使用箭头函数，通过ES6的上下文来将`this`的指向绑定给当前组件，同样每一次render的时候都会生成新的方法，影响性能
+
+			```jsx
+			class App extends React.Component{
+			    handleClick() {
+			    console.log('this > ', this);
+			  }
+			  render() {
+			    return (
+			      <div onClick={e=>this.handleClick(e)}>test</div>
+			    )
+			  }
+			}
+			```
+
+		- constructor中bind，可以避免在`render`操作中重复绑定
+
+			```jsx
+			class App extends React.Component{
+			   constructor(props) {
+			    super(props);
+			    this.handleClick = this.handleClick.bind(this);
+			  }
+			   handleClick() {
+			    console.log('this > ', this);
+			  }
+			  render() {
+			    return (
+			      <div onClick={this.handleClick}>test</div>
+			    )
+			  }
+			}
+			```
+
+		- 定义阶段使用箭头函数绑定，同样可以避免中重复绑定，实现也非常的简单
+
+			```jsx
+			class App extends React.Component{
+			   handleClick= () => {
+			    console.log('this > ', this);
+			  }
+			  render() {
+			    return (
+			      <div onClick={this.handleClick}>test</div>
+			    )
+			  }
+			}
+			```
+
+		区别：
+
+		> 编写方面：方式一、方式二写法简单，方式三的编写过于冗杂
+		>
+		> 
+		>
+		> 性能方面：方式一和方式二在每次组件render的时候都会生成新的方法实例，性能问题欠缺。若该函数作为属性值传给子组件的时候，都会导致额外的渲染。而方式三、方式四只会生成一个方法实例，四是最优解
+22. 描述下在react中无状态组件和有状态组件的区别是什么？
+	- A：状态即是state，在hooks出现之前函数组件都是无状态组件
+		- 无状态组件：无状态组件主要用于内容展示，接收来自父组件props传递过来的数据，使用props来展示父组件传递的内容。无状态组件应该保持模板的纯粹性，以便于组件复用。
+		- 状态组件：状态组件主要用来定义交互逻辑和业务数据，有自己的state，需要处理副作用等反馈到state状态上。
