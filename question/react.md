@@ -299,6 +299,31 @@
 	- A：状态即是state，在hooks出现之前函数组件都是无状态组件
 		- 无状态组件：无状态组件主要用于内容展示，接收来自父组件props传递过来的数据，使用props来展示父组件传递的内容。无状态组件应该保持模板的纯粹性，以便于组件复用。
 		- 状态组件：状态组件主要用来定义交互逻辑和业务数据，有自己的state，需要处理副作用等反馈到state上。
-
 24. 说一下setState原理
 	- A：setState操作并不保证是同步的，也可以认为是异步的，React在setState之后，会经对state进行diff，判断是否有改变，然后去对比差异决定是否要更新界面。 如果这一系列过程立刻发生在每一个setState之后，就可能会有性能问题.。在短时间内频繁setState，React会将state的翻遍压入栈中，在合适的时机批量更新state和视图，达到提高性能的效果。
+25. react中遍历时为什么不用索引作为唯一的key值？
+	- A：key值的目的在Diff DOM的时候让React可以根据更新前后的唯一key值快速的对树进行比较，从而得以正确地更新 DOM 树，如在进行中间插入或者最顶上插入时，算法会很明显得知道这是一个插入动作，然后让后续的节点往后移位，如果是以索引index作为key值，那么在进入上述的操作后，插入后面的元素key值完全变了，算法不能准确的定位到树中node的位置，只能从插入的位置起，后续的全部重新生成，影响性能
+26. 在React中如何引入图片？哪种方式更好？
+	- A：
+		- 通过import将图片当做模块导入
+
+			```jsx
+			import Img from "./images/1.png"
+			function App(){
+			  return(
+			    <div><img src={Img} alt='Logo'/></div>
+			  )
+			}
+			```
+
+		- 通过require直接获取图片
+
+			```jsx
+			function App(){
+			  return(
+			    <div><img src={require('./images/1.png')} alt='Logo'/></div>
+			  )
+			}
+			```
+
+		两种方法显示效果相同没有本质却别，`import`方式更符合ES6的模块化规范，可以直接在代码中使用引入的图片，而`require`方式更符合CommonJS的模块化规范，需要使用`require()`函数引入图片
