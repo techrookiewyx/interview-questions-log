@@ -245,3 +245,11 @@
 		  border-color: transparent transparent red transparent;
 		}
 		```
+29. 一个满屏品字布局如何设计?
+	- A：这里介绍一个简单方式：上面的div宽100%，下面的两个div分别宽50%，然后用float或者inline使其不换行即可
+30. margin 无效的情形
+	- A：
+		- display计算值inline的非替换元素的垂直margin是无效的。对于内联替换元素，垂直margin有效，并且没有margin合并的问题。
+		- 表格中的\<tr>和\<td>元素或者设置display计算值是table-cell或table-row的元素的margin都是无效的。  
+		- 绝对定位元素没有设置对应方向的定位属性时margin值“无效”。
+		- 定高容器的子元素的margin-bottom或者宽度定死的子元素的margin-right的定位“失效”。
