@@ -60,11 +60,11 @@
 			}
 			```
 	
-		- 通过 React.createElement方法创建：这是一种及其老的方式，目前基本不会使用了。
+		- 通过 React.createClass方法创建：这是一种及其老的方式，目前基本不会使用了。
 	
 			```jsx
 			function HelloComponent(props) {
-			  return React.createElement(
+			  return React.createClass(
 			    "div",
 			    null,
 			    "Hello ",
@@ -377,3 +377,33 @@
 		> - useReducer、useContext、useCallback等
 
 		HOOK使函数组件拥有类组件的相似功能。可以通过自定义Hook，将数据状态逻辑从组件中抽离出去，这样同一个Hook可以被多个组件使用，解决组件数据状态逻辑并不能重用的问题。
+29. 你了解React中的Fragment吗
+	- A：
+
+		> 我们常用的<\>\</>就是\<Fragment> 的简写语法，\<Fragment> 可以将其他元素组合起来，且不会在文档中添加额外节点（不会影响布局和样式）
+		>
+		> 当你在循环中渲染多个元素时可以使用\<Fragment>来为每一个元素分配key，也就是说\<Fragment> 可以设置key属性
+30. 说一说state的批处理
+	- A：我们先看一下如下案例：
+
+		```jsx
+		import { useState } from 'react';
+		export default function Counter() {
+		  const [number, setNumber] = useState(0);
+		
+		  return (
+		    <>
+		      <h1>{number}</h1>
+		      <button onClick={() => {
+		        setNumber(number + 1);
+		        setNumber(number + 1);
+		        setNumber(number + 1);
+		      }}>+3</button>
+		    </>
+		  )
+		}
+		```
+
+		你不是以为点击按钮后number的值会变为3，但最终number结果是1。因为state在一次渲染的事件处理函数中是不变的也就是说number一直是0，其次还有如下原因导致了这个结果
+
+		React会等到事件处理函数中的所有代码都运行完毕再处理你的state更新（UI才会更新），这也就意味着你可以在一个事件处理函数中同时更新多个state而不会触发多次重新渲染，这就是批处理。
