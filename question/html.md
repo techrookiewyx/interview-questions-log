@@ -171,3 +171,13 @@
 		- property 就是dom元素在js中作为对象拥有的属性
 
 		对于 html 的标准属性来说，attribute 和 property 是同步的，是会自动更新的，  但是对于自定义的属性来说，他们是不同步的
+29. IE 各版本和 Chrome 可以并行下载多少个资源？
+	- A：IE6 2个并发、IE7升级之后的6个并发之后版本也是 6 个、Firefox和chrome 也是6个
+30. disabled 和 readonly 的区别？
+	- A：
+
+		> disabled 指当 input 元素加载时禁用此元素。input内容不会随着表单提交。     
+		>
+		> readonly 规定输入字段为只读。input内容会随着表单提交。   
+		>
+		> 无论设置 readonly 还是 disabled，通过 js 脚本都能更改 input 的 value
