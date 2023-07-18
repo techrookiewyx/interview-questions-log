@@ -272,3 +272,11 @@
 	- A：已在作用域中声明但还没有赋值的变量是undefined，在作用域中没有声明的变量是undeclared。
 
 		> 对于undeclared变量的使用，浏览器会报引用错误，如 ReferenceError: b is not defined 。但是我们可以使用typeof的安全防范机制来避免报错，因为对于undeclared（或者not defined ）变量，typeof 会返回"undefined"。
+29.  js 获取原型的方法？
+	- A：
+		- p._\_proto_\_：通过对象._\_proto_\_ 来访问对象的原型对象，这是一个隐含的属性，所以并不推荐。
+		- p.constructor.prototype
+		- Object.getPrototypeOf(p)
+30. typeof NaN 的结果是什么？
+	- A：会返回NaN
+	- 解析：NaN意指不是一个数字（not a number），NaN 是一个sentinel value（有特殊用途的常规值）也称为警戒值，用于指出数字类型中的错误情况。NaN 是一个特殊值，它和自身不相等，是唯一一个非自反的值，NaN != NaN 为 true。
