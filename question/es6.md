@@ -277,4 +277,27 @@
 		> 区别：
 		>
 		> call使用逗号分隔多个参数，而apply在接收参数时需要以（xx，[a,b,c]）数组的方式接收多余参数
+29. 说出下面代码执行结果
+	```js
+	const promise = new Promise((resolve,reject)=>{
+	    console.log(1);
+	    resolve();
+	    console.log(2);
+	    reject()
+	})
+	setTimeout(()=>{console.log(5)},0)
+	promise.then(()=>{console.log(3)})
+	.then(()=>{console.log(6)})
+	.catch(()=>{console.log(7)})
+	console.log(4)
+	```
+	- A：1,2,4,3,6,5
+	- 解析：
 
+		> 1. 首先new Promise时候打印1和2，因为new Promise时候会立即执行传入的方法
+		> 2. 然后先将setTimeout的回调加入宏任务队列，再把promise.then放入到微任务队列
+		> 3. 然后执行执行栈中的同步任务打印4
+		> 4. 当执行栈中任务执行完毕接下来开始执行微任务队列中的任务，由于promise resolve，因为promise resolve之后状态不会再改变，因此不会执行到reject的回调，所以打印3和6微任务队列为空
+		> 5. 再到宏任务队列中查找任务，找到setTimeout回调压入执行栈执行，打印5。
+30. es6继承，子类会继承父类的静态成员吗？
+	- A：会继承，除了私有属性，父类的所有属性和方法，都会被子类继承，其中包括静态方法。 
