@@ -25,6 +25,7 @@
 7. 网页抽象成三部分（HTML、CSS和JavaScript）后的优点有哪些？ 
 	- A：三部分是HTML代表结构负责页面内容和结构、CSS代表表现负责内容样式、JS表示行为负责页面动态交互。
 		抽象为三部分可以`增加代码可读性`、`按需加载资源`、`便于后期维护`。
+	
 8. HTML5删除和新增了哪些元素
 	- A：新增了`article`、`header`等内容元素，`data`、`time`、`number`等表单元素，`video`、`audio`多媒体元素，`<canvas>`绘图元素等。移除了`<applet>`、`<basefont>`、`<big>`、`<center>`、`<font>`、`<frame>`等元素。
 9. 页面导入样式时，使用 link 和 @import 有什么区别？
@@ -171,6 +172,7 @@
 		- property 就是dom元素在js中作为对象拥有的属性
 
 		对于 html 的标准属性来说，attribute 和 property 是同步的，是会自动更新的，  但是对于自定义的属性来说，他们是不同步的
+	
 29. IE 各版本和 Chrome 可以并行下载多少个资源？
 	- A：IE6 2个并发、IE7升级之后的6个并发之后版本也是 6 个、Firefox和chrome 也是6个
 30. disabled 和 readonly 的区别？
@@ -181,3 +183,11 @@
 		> readonly 规定输入字段为只读。input内容会随着表单提交。   
 		>
 		> 无论设置 readonly 还是 disabled，通过 js 脚本都能更改 input 的 value
+31. 常见的浏览器端的存储技术有哪些？
+	- A：浏览器常见的存储技术有 cookie、localStorage 和 sessionStorage，还有两种存储技术用于大规模数据存储，webSQL（已被废除）和 indexDB，IE支持userData 存储数据，但是基本很少使用到，除非有很强的浏览器兼容需求
+32. HTML5 的 form 的自动完成功能是什么？
+	- A： autocomplete属性规定输入字段是否应该启用自动完成功能。默认为启用，设置为 autocomplete=off 可以关闭该功能。   
+
+		> 自动完成允许浏览器预测对字段的输入。当用户在字段开始键入时，浏览器基于之前键入过的值，应该显示出在字段中填写的选项，类似于历史记录一样。
+		>
+		> autocomplete属性适用于\<form>，以及下面的\<input> 类型为：text, search, url, telephone, email等。
