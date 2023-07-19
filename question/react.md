@@ -51,7 +51,7 @@
 	
 	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式，在React中，一个类、一个函数都可以视为一个组件。组件的构建主要分成了三种：
 	
-		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件。最终会通过babel转化成React.createEelement的形式
+		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件。最终会通过babel转化成React.createClass的形式
 
 			```jsx
 			//可以通过如下方式构建函数组件
@@ -60,7 +60,7 @@
 			}
 			```
 	
-		- 通过 React.createClass方法创建：这是一种及其老的方式，目前基本不会使用了。
+		- 通过 React.createClass方法创建：是react刚开始推荐的创建组件的方式，这是一种及其老的方式，目前基本不会使用了。
 	
 			```jsx
 			function HelloComponent(props) {
@@ -73,7 +73,7 @@
 			}
 			```
 	
-		- 继承 React.Component创建：这种形式进行创建有状态的组件，在类创建的方式中通过`this.state`进行访问当调用`this.setState`修改组件的状态时，组件会再次会调用render()方法进行重新渲染，下面是一个简单案例：
+		- 继承 React.Component创建：这种形式进行创建有状态的组件，在类创建的方式中通过`this.state`进行访问，当调用`this.setState`修改组件的状态时，组件会再次会调用render()方法进行重新渲染，下面是一个简单案例：
 		
 			```jsx
 			class Timer extends React.Component {
@@ -407,3 +407,14 @@
 		你不是以为点击按钮后number的值会变为3，但最终number结果是1。因为state在一次渲染的事件处理函数中是不变的也就是说number一直是0，其次还有如下原因导致了这个结果
 
 		React会等到事件处理函数中的所有代码都运行完毕再处理你的state更新（UI才会更新），这也就意味着你可以在一个事件处理函数中同时更新多个state而不会触发多次重新渲染，这就是批处理。
+31. 什么是 Pure Components?
+	- A：React.PureComponent与React.Component 完全相同，只是它为你处理了 shouldComponentUpdate() 方法。当属性或状态发生变化时，PureComponent 将对属性和状态进行**浅比较**。另一方面，一般的组件不会将当前的属性和状态与新的属性和状态进行比较。因此，在默认情况下，每当调用shouldComponentUpdate时，默认返回 true，所以组件都将重新渲染。
+32. 在 context 中默认值的目的是什么?
+	- A：当在组件树中的组件没有匹配到在其上方的 Provider 时，才会使用 defaultValue 参数。这有助于在不包装组件的情况下单独测试组件
+
+		```jsx
+		const defaultTheme = "Tom";
+		const MyContext = React.createContext(defaultTheme); //这里停供了Tom作为默认值
+		```
+
+		
