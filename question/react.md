@@ -136,7 +136,7 @@
 14. 说说React中JSX语法
 	- A：JSX既不是字符串，也不是HTML，而是一种类似XML，用于描述用户界面的JavaScript扩展语法，可以用于创建React元素。JSX为视图和数据架起了一座沟通的桥梁，JSX最终会被编译成普通的JavaScript对象，所以能够直接使用JavaScript语法，因此我们可以在JS中编写JSX。
 	
-		> 在JSX的任意位置都能插入表达式，但必须用花括号包裹住才能有效。
+		> 在JSX的任意位置都能插入变量，但必须用花括号包裹住才能有效。
 		>
 		> JSX中会自动将数组中元素在页面中显示
 		>
@@ -210,9 +210,9 @@
 			>
 			> 这个事件监听器上维持了一个映射来保存所有组件内部的事件监听和处理函数。当组件挂载或卸载时，只是在这个统一的事件监听器上插入或删除一些对象
 			>
-			> 当事件发生时，首先被这个统一的事件监听器处理，然后在映射里找到真正的事件处理函数并调用。这样做简化了事件处理和回收机制，效率也有很大提升
+			> 当事件发生时，首先被这个统一的事件监听器处理，然后在映射里找到真正的事件处理函数并调用（React 通过队列的形式，从触发的组件向父组件回溯，然后调用他们 JSX 中定义的 callback）。这样做简化了事件处理和回收机制，效率也有很大提升
 
-		- 关于执行顺序：React 所有事件都挂载在 document 对象上，而不是 React 组件对应的 DOM
+		- 关于执行顺序：React 所有事件都挂载在 document 对象上，而不是 React 组件对应的 DOM(减少内存开销就是因为所有的事件都绑定在 document 上，其他节点没有绑定事件)
 
 			1. 当真实 DOM 元素触发事件，会冒泡到 document 对象后，再处理 React 事件
 			2. 所以会先执行原生事件，然后处理 React 事件
@@ -376,7 +376,7 @@
 		> - useEffeact：能够在函数组件中进行一些带有副作用的操作，解决类组件某些执行代码被分散在不同的生命周期函数中的问题
 		> - useReducer、useContext、useCallback等
 
-		HOOK使函数组件拥有类组件的相似功能。可以通过自定义Hook，将数据状态逻辑从组件中抽离出去，这样同一个Hook可以被多个组件使用，解决组件数据状态逻辑并不能重用的问题。
+		HOOK扩展了函数组件的功能使函数组件拥有类组件的相似功能。可以通过自定义Hook，将数据状态逻辑从组件中抽离出去，这样同一个Hook可以被多个组件使用，解决组件数据状态逻辑并不能重用的问题。
 29. 你了解React中的Fragment吗
 	- A：
 
@@ -416,5 +416,41 @@
 		const defaultTheme = "Tom";
 		const MyContext = React.createContext(defaultTheme); //这里停供了Tom作为默认值
 		```
+33. super()和super(props)有什么区别？
+	- A：在ES6中是通过extends来实现类的继承，super()会调用父类的构造函数，super()的作用是形成子类的this对象，把父类的实例属性和方法放到这个this对象上面（继承父类的this对象），只有调用super()之后，才可以使用this关键字，否则会报错。
+	
+		> 在React的类组件是基于ES6规范实现的，因此如果用到constructor就必须写super()才初始化this。如果我们不用constructor时，React内部也会将其定义在组件实例中
+		>
+		> ```jsx
+		> // React 内部
+		> const instance = new YourComponent(props);
+		> instance.props = props;
+		> ```
+		>
+		> 那么super()和super(props)有什么区别呢？
+		>
+		> - 即使你调用 super()的时候没有传入props，你依然能够在render函数或其他方法中访问到this.props，React内部会在构造函数执行完毕后给this.props赋值（在这之前this.props为undefined）
+		>
+		> 	```jsx
+		> 	class Button extends React.Component {
+		> 	  constructor(props) {
+		> 	    super(); // 没传入 props
+		> 	    console.log(props);      //  {}
+		> 	    console.log(this.props); //  undefined
+		> 	  }
+		> 	}
+		> 	```
+		>
+		> - 而传入props则能在任何地方都能正常访问，确保了this.props在构造函数执行完毕之前已被赋值，更符合逻辑
+		>
+		> 	```jsx
+		> 	class Button extends React.Component {
+		> 	  constructor(props) {
+		> 	    super(props); 
+		> 	    console.log(this.props); //  {}
+		> 	  }
+		> 	}
+		> 	```
+34. 什么是调解?
+	- A：当组件的props或state发生更改时，React通过将新返回的元素与先前呈现的元素进行比较来确定是否需要实际的 DOM 更新。当它们不相等时，React 将更新DOM 。此过程称为调解。
 
-		
