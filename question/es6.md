@@ -302,7 +302,7 @@
 30. es6继承，子类会继承父类的静态成员吗？
 	- A：会继承，除了私有属性，父类的所有属性和方法，都会被子类继承，其中包括静态方法。 
 31. 说一说Symbol，以及注意点
-	- A：Symbol是一种基本类型。Symbol 通过调用Symbol函数产生，它接收一个可选的名字参数，该函数返回的symbol是唯一的，用来定义对象的唯一属性名
+	- A：Symbol是一种基本类型。Symbol 通过调用Symbol函数产生，它接收一个可选的名字参数，该函数返回的symbol是唯一的，可以用来定义对象的唯一属性名，也可以替换string可以避免不同的模块属性的冲突。
 
 		> symbol特点以及注意点如下：
 		>
@@ -336,6 +336,17 @@
 		    var c = await C(b);
 		    var d = await D(c);
 		})()
+		```
+33. ES6中的字符串方法startsWith()和endsWith()有什么用途？
+	- A：startsWith()和endsWith()是ES6中新增的字符串方法，用于判断字符串是否以指定的字符开始或结束。它们返回布尔值，可以用于快速检查字符串的前缀或后缀。
+34. 如何使用Set去重
+	- A：
+
+		```js
+		let arr = [12,43,23,43,68,12];
+		//这里也可以使用Array.from(new Set(arr))来将Set转回数组
+		let item = [...new Set(arr)];
+		console.log(item);//[12, 43, 23, 68]
 		```
 
 		
