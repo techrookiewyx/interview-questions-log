@@ -48,7 +48,6 @@
 			|  一个数据的多个输入  |   ×    |  √   |
 			|       动态输入       |   ×    |  √   |
 11. React构建组件的方式有哪些？区别？
-	
 	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式，在React中，一个类、一个函数都可以视为一个组件。组件的构建主要分成了三种：
 	
 		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件。最终会通过babel转化成React.createClass的形式
@@ -134,7 +133,7 @@
 
 			> 满足大部分场景的应用，可以类似于预处理器一样样式嵌套、定义、修改状态
 14. 说说React中JSX语法
-	- A：JSX既不是字符串，也不是HTML，而是一种类似XML，用于描述用户界面的JavaScript扩展语法，可以用于创建React元素。JSX为视图和数据架起了一座沟通的桥梁，JSX最终会被编译成普通的JavaScript对象，所以能够直接使用JavaScript语法，因此我们可以在JS中编写JSX。
+	- A：JSX既不是字符串，也不是HTML，而是一种类似XML，用于描述用户界面的JavaScript扩展语法，可以用于创建React元素，它只是为React.createElement()提供语法糖（16.x版本），从而让在我们在 JavaScript中，使用类 HTML 模板的语法。JSX为视图和数据架起了一座沟通的桥梁，JSX最终会被编译成普通的JavaScript对象，所以能够直接使用JavaScript语法，因此我们可以在JS中编写JSX。
 	
 		> 在JSX的任意位置都能插入变量，但必须用花括号包裹住才能有效。
 		>
@@ -217,6 +216,7 @@
 			1. 当真实 DOM 元素触发事件，会冒泡到 document 对象后，再处理 React 事件
 			2. 所以会先执行原生事件，然后处理 React 事件
 			3. 最后真正执行 document 上挂载的事件
+	
 21. 为什么说React中的props是只读的？
 	- A：这样保证react的单向数据流的设计模式，使状态更可预测。如果允许组件修改，那么一个父组件将状态传递给好几个子组件，这几个子组件随意修改，就完全不可预测，不知道在什么地方修改了状态。为了保证组件像纯函数一样没有响应的副作用，所以我们必须像纯函数一样保护 props 不被修改。
 22. React事件绑定的方式有哪些？区别？
@@ -451,6 +451,58 @@
 		> 	  }
 		> 	}
 		> 	```
+	
 34. 什么是调解?
 	- A：当组件的props或state发生更改时，React通过将新返回的元素与先前呈现的元素进行比较来确定是否需要实际的 DOM 更新。当它们不相等时，React 将更新DOM 。此过程称为调解。
+35. 说说对React refs 的理解？应用场景？
+	- A：React 中的 `Refs`提供了一种方式，允许我们访问 `DOM `节点或在 `render `方法中创建的 `React `元素，本质为ReactDOM.render()返回的组件实例，如果是渲染组件则返回的是组件实例，如果渲染dom则返回的是具体的dom节点。
 
+		> 类组件中ref的创建形式有三种
+		>
+		> - 传入字符串，使用时通过this.refs.传入的字符串的格式获取对应的元素
+		>
+		> 	```jsx
+		> 	class MyComponent extends React.Component {
+		> 	  constructor(props) {
+		> 	    super(props);
+		> 	    this.myRef = React.createRef();
+		> 	  }
+		> 	  render() {
+		> 	    return <div ref="myref" />;
+		> 	  }
+		> 	}
+		> 	//访问
+		> 	this.refs.myref.innerHTML='haha';
+		> 	```
+		>
+		> - 传入对象，对象是通过React.createRef()方式创建出来，使用时获取到创建的对象中的current属性就是对应的元素。
+		>
+		> - 传入函数，该函数会在 DOM 被挂载时进行回调，这个函数会传入一个 元素对象，可以自己保存，使用时，直接拿到之前保存的元素对象即可
+		>
+		> 	```jsx
+		> 	class MyComponent extends React.Component {
+		> 	  constructor(props) {
+		> 	    super(props);
+		> 	    this.myRef = React.createRef();
+		> 	  }
+		> 	  render() {
+		> 	    return <div ref={element => this.myref = element} />;
+		> 	  }
+		> 	}
+		> 	//获取
+		> 	const node = this.myrf
+		> 	```
+		>
+		> 在函数组件中可以通过hook创建对象，并获取节点
+		>
+		> ```jsx
+		> function App(){
+		>    const myRef = useRef(null);
+		>    return <div ref={myRef}></div>
+		> }
+		> //同样通过current属性来对应节点
+		> ```
+		>
+		> 使用方面：过多使用`refs`，会使组件的实例或者是`DOM`结构暴露，违反组件封装的原则，更多情况我们是通过`props`与`state`的方式进行去重新渲染子元素。但在DOM元素的焦点控制、内容选择、媒体控制、内容设置等场景还是很有效的
+36. 什么是上下文（Context）?
+	- A：Context通过组件树提供了一个传递数据的方法（通过createContext创建一个上下文，并通过Provider包裹所有可能使用对应value的组件），从而避免了在每一个层级手动的传递`props`（在后代组件中可以通过useContext来获取对应上下文种的内容）。比如，需要在应用中许多组件需要访问登录用户信息、地区偏好、UI主题等。
