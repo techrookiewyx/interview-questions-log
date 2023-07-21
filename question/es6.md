@@ -348,5 +348,23 @@
 		let item = [...new Set(arr)];
 		console.log(item);//[12, 43, 23, 68]
 		```
-
-		
+35. 将下面for循环改成for of形式
+	```js
+	let arr = [11,22,33,44,55];
+	let sum = 0;
+	for(let i=0;i<arr.length;i++){
+	    sum += arr[i];
+	}
+	```
+	- A：
+		```js
+		let arr = [11,22,33,44,55];
+		let sum = 0;
+		for(value of arr){
+		    sum += value;
+		}
+		```
+36. 举一些ES6对String字符串类型做的常用升级优化?
+	- A：
+		- ES6新增了模块字符串，用反斜杠(`)取代以往的字符串相加的形式，能保留所有空格和换行并且可以通过（$）加花括号来拼接变量，使得内容拼接看起来更加直观。
+		- ES6在String原型上新增了includes()方法，用于取代传统的只能用indexOf查找包含字符的方法, 此外还新增了startsWith()，endsWith()，padStart()，padEnd()，repeat()等方法，可方便的操作字符串。
