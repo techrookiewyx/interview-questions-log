@@ -451,7 +451,6 @@
 		> 	  }
 		> 	}
 		> 	```
-	
 34. 什么是调解?
 	- A：当组件的props或state发生更改时，React通过将新返回的元素与先前呈现的元素进行比较来确定是否需要实际的 DOM 更新。当它们不相等时，React 将更新DOM 。此过程称为调解。
 35. 说说对React refs 的理解？应用场景？
@@ -505,4 +504,26 @@
 		>
 		> 使用方面：过多使用`refs`，会使组件的实例或者是`DOM`结构暴露，违反组件封装的原则，更多情况我们是通过`props`与`state`的方式进行去重新渲染子元素。但在DOM元素的焦点控制、内容选择、媒体控制、内容设置等场景还是很有效的
 36. 什么是上下文（Context）?
-	- A：Context通过组件树提供了一个传递数据的方法（通过createContext创建一个上下文，并通过Provider包裹所有可能使用对应value的组件），从而避免了在每一个层级手动的传递`props`（在后代组件中可以通过useContext来获取对应上下文种的内容）。比如，需要在应用中许多组件需要访问登录用户信息、地区偏好、UI主题等。
+	- A：Context通过组件树提供了一个传递数据的方法（通过createContext创建一个上下文，并通过Provider包裹所有可能使用对应value的组件），从而避免了在每一个层级手动的传递`props`（在后代组件中可以通过useContext来获取对应上下文种的数据）。比如，需要在应用中许多组件需要访问登录用户信息、地区偏好、UI主题等。
+37. React的displayName有什么作用？
+	- A：在React中，displayName是一个静态属性，用于给组件设置一个可读性更好的显示名称。它对于开发者来说是可选的，没有直接的功能影响，但在开发和调试过程中具有一定的重要性。
+
+		```jsx
+		//类组件中
+		class MyComponent extends React.Component {
+		  // 组件代码...
+		  
+		  static displayName = 'MyComponent';
+		}
+		
+		//函数组件中
+		const MyComponent = () => {
+		  // 组件代码...
+		};
+		
+		MyComponent.displayName = 'MyComponent';
+		```
+38. Hooks 需要遵循什么规则?
+	- A：
+		- 只能在React函数或自定义hook的最顶层调用hooks。也就是说，你不能在循环、条件或内嵌函数中调用 hooks。这将确保每次组件渲染时都以相同的顺序调用 hooks，并且它会在多个 useState 和 useEffect 调用之间保留 hooks 的状态。
+		- 仅在 React 函数中调用 hooks。例如，你不能在常规的 JavaScript 函数中调用 hooks。
