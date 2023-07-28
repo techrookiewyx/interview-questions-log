@@ -48,9 +48,9 @@
 			|  一个数据的多个输入  |   ×    |  √   |
 			|       动态输入       |   ×    |  √   |
 11. React构建组件的方式有哪些？区别？
-	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式，在React中，一个类、一个函数都可以视为一个组件。组件的构建主要分成了三种：
+	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式。在React中可以将页面内容拆分成一个一个组件，一个类、一个函数都可以视为一个组件，组件是构建用户界面的基础。组件的构建主要分成了三种：
 	
-		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件。最终会通过babel转化成React.createClass的形式
+		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件，最终会通过babel转化成React.createElement的形式
 
 			```jsx
 			//可以通过如下方式构建函数组件
@@ -61,17 +61,22 @@
 	
 		- 通过 React.createClass方法创建：是react刚开始推荐的创建组件的方式，这是一种及其老的方式，目前基本不会使用了。
 	
-			```jsx
-			function HelloComponent(props) {
-			  return React.createClass(
-			    "div",
-			    null,
-			    "Hello ",
-			    props.name
-			  );
-			}
-			```
-	
+		  ```jsx
+		  const MyComponent = React.createClass({
+		    // 通过proTypes对象和getDefaultProps()方法来设置和获取props
+		    propTypes: {
+		      name: React.PropTypes.string
+		    }
+		    // 通过getInitialState()方法返回一个包含初始值的对象
+		    getInitialState(){ 
+		          return {sayHello: 'Hello Srtian'}
+		     }
+		     render() {
+		      return <p></p>
+		    }
+		  })
+		  ```
+		
 		- 继承 React.Component创建：这种形式进行创建有状态的组件，在类创建的方式中通过`this.state`进行访问，当调用`this.setState`修改组件的状态时，组件会再次会调用render()方法进行重新渲染，下面是一个简单案例：
 		
 			```jsx
@@ -477,7 +482,7 @@
 		>
 		> - 传入对象，对象是通过React.createRef()方式创建出来，使用时获取到创建的对象中的current属性就是对应的元素。
 		>
-		> - 传入函数，该函数会在 DOM 被挂载时进行回调，这个函数会传入一个 元素对象，可以自己保存，使用时，直接拿到之前保存的元素对象即可
+		> - 传入函数，该函数会在 DOM 被挂载时进行回调，这个函数会传入一个元素对象，可以自己保存，使用时，直接拿到之前保存的元素对象即可
 		>
 		> 	```jsx
 		> 	class MyComponent extends React.Component {
@@ -526,8 +531,8 @@
 		```
 38. Hooks 需要遵循什么规则?
 	- A：
-		- 只能在React函数或自定义hook的最顶层调用hooks。也就是说，你不能在循环、条件或内嵌函数中调用 hooks。这将确保每次组件渲染时都以相同的顺序调用 hooks，并且它会在多个 useState 和 useEffect 调用之间保留 hooks 的状态。
-		- 仅在 React 函数中调用 hooks。例如，你不能在常规的 JavaScript 函数中调用 hooks。
+		- 只能在React组件或自定义hook的最顶层调用hooks。也就是说，你不能在循环、条件或内嵌函数中调用 hooks。这将确保每次组件渲染时都以相同的顺序调用 hooks，并且它会在多个 useState 和 useEffect 调用之间保留 hooks 的状态。
+		- 仅在 React 函数组件中调用 hooks。例如，你不能在常规的 JavaScript 函数中调用 hooks。
 39. React memo 函数是什么?
 	- A：默认情况下如果父组件重新渲染，那么该父组件下的所有子组件都会随着父级的重新渲染而重新渲染，使用React.memo仅仅是让该函数组件具备了可以跳过本次渲染的基础，当子组件中props没有发生变化时可以跳过本次渲染。
 	
@@ -541,4 +546,8 @@
 	- 我们可以将memo看做一个高阶函数，接收一个组件作为参数，并且返回一个包装过的新组组件，包装过的组件具有缓存功能，只有props变化会使子组件重新渲染，否则总返回缓存中的结果
 40. ref 参数对于所有函数或类组件是否可用?
 
-	- A：常规函数或类组件不会接收到ref参数，并且ref在props中也不可用。只有在使用 React.forwardRef定义组件时才存在第二个ref 参数。
+	- A：常规函数或类组件不会接收到ref参数，并且ref在props中也不可用。只有在使用 React.forwardRef定义组件时才存在第二个为ref的参数。
+
+
+		
+
