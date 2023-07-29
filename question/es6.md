@@ -151,7 +151,6 @@
 		> promise.then里的回调函数会放到相应宏任务的微任务队列里，等宏任务里面的同步代码执行完再执行
 		>
 		> async函数表示函数里面可能会有异步方法，await后面跟一个表达式。async方法执行时，遇到await会立即执行表达式，然后把表达式后面的代码放到微任务队列里，让出执行栈让同步代码先执行
-	
 18. ES6中针对函数新增了哪些扩展?
 	- A：
 		- 对函数参数的扩展，ES6中允许为函数参数设置默认值，当参数是对象时可以进行解构。
@@ -429,4 +428,18 @@
 		使用场景：Object.keys()和Object.values()通常用于遍历对象的键和值，或者用于将对象的键或值转换为数组进行进一步处理。
 40. ES6中的类继承是如何实现的？
 	- A：ES6中的类继承使用extends关键字来实现，子类可以继承父类的属性和方法，并且可以添加自己的属性和方法。可以通过调用super()方法来调用父类的构造函数。
+41. ES6中的Array方法some和every的作用是什么？
 
+	- A：ES6中的Array方法some用于判断数组中是否存在满足条件的元素，只要有一个元素满足条件即返回true；every用于判断数组中所有元素是否都满足条件，只有所有元素都满足条件才返回true。
+
+		```js
+		const numbers = [1, 2, 3, 4, 5];
+		// 使用some判断是否存在大于3的元素
+		const hasGreaterThan3 = numbers.some(num => num > 3);
+		console.log(hasGreaterThan3); // 输出：true
+		// 使用every判断是否所有元素都大于0
+		const allGreaterThan0 = numbers.every(num => num > 0);
+		console.log(allGreaterThan0); // 输出：true
+		```
+
+		
