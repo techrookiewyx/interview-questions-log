@@ -131,48 +131,50 @@
 
 		- 显示转换
 
-			> 显示转换是指我们可以清楚的看到类型发生了变化，常见的方法有
-			>
-			> 1. Number（）：将任意类型的值转化为数值，转换规则如下：
-			>
-			> 	- 如果字符串是一个合法数字，则会自动转换成对应的数字，如果字符串不是一个合法数字，则转换为NaN。空字符串或纯空格的字符串会转换为数字0
-			> 	- 布尔值true转换为数字1，false转换为数字0
-			> 	- null转换为数字0，undefined则转换为数字NaN
-			>
-			> 	如下例：
-			>
-			> 	```js
-			> 	Number('324') // 324  合法字符串
-			> 	Number('324abc') // NaN  非法字符串（不可以解析为数值）
-			> 	
-			> 	// 对象：通常转换成NaN(除了只包含单个数值的数组)
-			> 	Number({a: 1}) // NaN
-			> 	Number([1, 2, 3]) // NaN
-			> 	Number([5]) // 5
-			> 	```
-			>
-			> 2. String（）：可以将任意类型的值转化成字符串
-			>
-			> 	```js
-			> 	String(1) // "1"    数值：转为相应的字符串
-			> 	String(true) // "true"    false则转换为'false'
-			> 	String(undefined) // "undefined"
-			> 	String(null) // "null"
-			> 	
-			> 	//对象
-			> 	String({a: 1}) // "[object Object]"
-			> 	String([1, 2, 3]) // "1,2,3"
-			> 	```
-			>
-			> 3. Boolean（）：可以将任意类型的值转为布尔值，转换规则如下：
-			>
-			> 	- 除了0和NaN以外所有数值类型都为true，0和NaN转换为false
-			> 	- 空串转换为false，其他都是true
-			> 	- null和undefined都转换为false
-			> 	- 任意对象都为true
+		  > 显示转换是指我们可以清楚的看到类型发生了变化，常见的方法有
+		  >
+		  > 1. Number（）：将任意类型的值转化为数值，转换规则如下：
+		  >
+		  >   - 如果字符串是一个合法数字，则会自动转换成对应的数字，如果字符串不是一个合法数字，则转换为NaN。空字符串或纯空格的字符串会转换为数字0
+		  >   - 布尔值true转换为数字1，false转换为数字0
+		  >   - null转换为数字0，undefined则转换为数字NaN
+		  >
+		  >   如下例：
+		  >
+		  >   ```js
+		  >   Number('324') // 324  合法字符串
+		  >   Number('324abc') // NaN  非法字符串（不可以解析为数值）
+		  >   
+		  >   // 对象：通常转换成NaN(除了只包含单个数值的数组)
+		  >   Number({a: 1}) // NaN
+		  >   Number([1, 2, 3]) // NaN
+		  >   Number([5]) // 5
+		  >   Number([])  // 0
+		  >   ```
+		  >
+		  > 2. String（）：可以将任意类型的值转化成字符串
+		  >
+		  >   ```js
+		  >   String(1) // "1"    数值：转为相应的字符串
+		  >   String(true) // "true"    false则转换为'false'
+		  >   String(undefined) // "undefined"
+		  >   String(null) // "null"
+		  >   
+		  >   //对象
+		  >   String({a: 1}) // "[object Object]"
+		  >   String([1, 2, 3]) // "1,2,3"
+		  >   String([])  // ''
+		  >   ```
+		  >
+		  > 3. Boolean（）：可以将任意类型的值转为布尔值，转换规则如下：
+		  >
+		  > 	- 除了0和NaN以外所有数值类型都为true，0和NaN转换为false
+		  > 	- 空串转换为false，其他都是true
+		  > 	- null和undefined都转换为false
+		  > 	- 任意对象都为true
 
 		- 隐式转换
-
+		
 			> 隐式转换是JS自动对数据进行类型转换，不是我们通过方法来手动转换的。通常在我们进行算术运算和比较运算以及if、while中的条件表达式时会发生自动转换
 			>
 			> - 当一个任意类型和字符串进行加法运算时，会自动转化为字符串。先将复合类型的值转为原始类型的值，再将原始类型的值转为字符串
@@ -405,4 +407,19 @@
 		> 2. 通过 call 调用数组的 splice 方法来实现转换
 		> 3. 通过过 apply 调用数组的 concat 方法来实现转换
 		> 4. 通过Array.from来转换
+41. {} 和 [] 的 valueOf 和 toString 的结果是什么？
+	- A：
 
+		> {} 的 valueOf 结果为 {} ，toString 的结果为 "[object Object]"  
+		>
+		> [] 的 valueOf 结果为 [] ，toString 的结果为 ""
+
+	- 解析：
+
+		> 通常vlueOf和toString在一些运算符操作时被自动调用（隐式转换）
+		>
+		> - valueOf：返回当前对象的原始值（除了Date对象会被转换为时间戳），其他任意类型返回对象本身
+		> - toString：返回一个表示该对象的字符串，除了null和undefined以外其他类型均可调用该方法，对于一个Object来说调用该方法返回`"[object Object]"`，数组调用该方法返回以逗号分隔的字符串。
+		> - Symbol.toPrimitive：是一个内置的 Symbol 值，它是作为对象的函数值属性存在的，当一个对象转换为对应的原始值时，会调用此函数。它的优先级最高
+		>
+		> valueOf()偏向于运算，toString()偏向于显示。在有运算符操作的情况下valueOf()的优先级高于toString()
