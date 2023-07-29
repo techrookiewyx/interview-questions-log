@@ -15,6 +15,13 @@
 6. 说说对React的理解？有哪些特性？
 	- A：React就是用来构建用户界面的JavaScript库，循序组件设计模式、声明式编程和函数式编程，使前端应用程序更高效，使用虚拟DOM来操作DOM，遵循高阶组件到低阶组件的单向流数据。
 		React具有很多特性，如`JSX语法`、`单向数据绑定`、`虚拟DOM`、`声明式编程`、`组件化开发`
+		
+		> 优势：
+		>
+		> 1. 高效灵活
+		> 2. 声明式的设计，简单实用
+		> 3. 组件式开发，提高代码复用率
+		> 4. 单向响应的数据流更安全，速度更快
 7. 请描述你对纯函数的理解？
 	- A：固定的输入，有固定的输出，且不包含任何副作用的函数称之为纯函数。纯函数不会更改函数调用前就存在的变量或对象。
 8. React的严格模式有什么用处？
@@ -48,7 +55,7 @@
 			|  一个数据的多个输入  |   ×    |  √   |
 			|       动态输入       |   ×    |  √   |
 11. React构建组件的方式有哪些？区别？
-	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念（组件）来实现开发的模式。在React中可以将页面内容拆分成一个一个组件，一个类、一个函数都可以视为一个组件，组件是构建用户界面的基础。组件的构建主要分成了三种：
+	- A：组件就是把图形、非图形的各种逻辑均抽象为一个统一的概念来实现开发的模式（组件本质是一段可以使用标签进行扩展 的JavaScript函数）。在React中可以将页面内容拆分成一个一个组件，一个类、一个函数都可以视为一个组件，组件是构建用户界面的基础。组件的构建主要分成了三种：
 	
 		- 函数式创建：在Hooks出来之前，函数式组件可以视为无状态组件，只负责根据传入的props来展示视图，不涉及对state状态的操作。函数式创建的组件，最终会通过babel转化成React.createElement的形式
 
@@ -368,7 +375,7 @@
 
 		高阶组件能够提高代码的复用性和灵活性，常常用于与核心业务无关但又在多个模块使用的功能，如权限控制、日志记录、数据校验、统计上报等
 28. 说说对React Hooks的理解？解决了什么问题？
-	- A：Hook 是 React 16.8 的新增特性。它可以让你在不编写 class的情况下使用 state以及其他的 React 特性。hook的引入是为了解决一些类组件的问题：
+	- A：Hook 是 React 16.8 的新增特性。它可以让你在不编写 class的情况下使用state以及其他的 React 特性。hook的引入是为了解决一些类组件的问题：
 
 		> 1. 复杂且不容易理解的“this”
 		> 2. 难以重用和共享组件中的与状态相关的逻辑
@@ -547,7 +554,92 @@
 40. ref 参数对于所有函数或类组件是否可用?
 
 	- A：常规函数或类组件不会接收到ref参数，并且ref在props中也不可用。只有在使用 React.forwardRef定义组件时才存在第二个为ref的参数。
+41. 在react中组件间过渡动画如何实现？
+	- A：组件的过渡动画就是页面切换时组件的显示与消失中的一个过渡效果，它可以增加用户的体验。在react中实现过渡动画效果通常可以使用`react-transition-group`，`react-motion`，`Animated`，以及原生的`CSS`都能完成切换动画。
 
-
-		
+		> 其中react-transition-group是一种很好的解决方案，其为元素添加`enter`，`enter-active`，`exit`，`exit-active`这一系列勾子来帮助我们实现组件显示和消失的动画。
+		>
+		> - CSSTransition：结合CSS来完成过渡动画效果，其实现在于CSSTransition的`in`属性为`true`时，会给其子组件添加`xxx-enter`、`xxx-enter-active`的class执行动画，动画结束后移除前两个class并添加`xx-enter-done`的class。当`in`属性置为`false`时，与ture过程相同只是class由`enter`变为`exit`。
+		>
+		> 	```jsx
+		> 	//这里使用css module引入
+		> 	import styles from "./styles.module.scss";
+		> 	import { CSSTransition, SwitchTransition } from "react-transition-group";
+		> 	export default function AnimationExample(){
+		> 	   const [show, setShow] = useState(true);
+		> 	   return(
+		> 	      <Button type="primary" onClick={() => setShow(!show)}>切换</Button>
+		> 	      <CSSTransition
+		> 	        in={show}
+		> 	        timeout={500}
+		> 	        classNames={{
+		> 	          enter: styles.fadeEnter,
+		> 	          enterActive: styles.fadeEnterActive,
+		> 	          enterDone: styles.fadeEnterDone,
+		> 	          exit: styles.fadeExit,
+		> 	          exitActive: styles.fadeExitActive,
+		> 	          exitDone: styles.fadeExitDone,
+		> 	        }}>
+		> 	        <div className={styles.box}></div>
+		> 	      </CSSTransition>。
+		> 	   ) 
+		> 	}
+		> 	//也可以使用类名前缀写法，但要指定全局样式
+		> 	<CSSTransition in={show} unmountOnExit={true} timeout={500} classNames={"fade"}>
+		> 	    <div className={styles.box}></div>
+		> 	</CSSTransition>
+		> 	//其中unmountOnExit表示当in从ture变为false动画结束后是否在页面中移除该DOM
+		> 	//timeout是xx-enter和xx-enter-active（或者xx-exit和 xx-exit-active）的作用时间
+		> 	```
+		>
+		> 	```css
+		> 	.fade-enter {
+		> 	  opacity: 0;
+		> 	  transform: translateX(100%);
+		> 	}
+		> 	
+		> 	.fade-enter-active {
+		> 	  opacity: 1;
+		> 	  transform: translateX(0);
+		> 	  transition: all 0.5s;
+		> 	}
+		> 	.fade-enter-done {
+		> 	  /* ... */
+		> 	}
+		> 	.fade-exit {
+		> 	 /* ... */
+		> 	}
+		> 	
+		> 	.fade-exit-active {
+		> 	 /* ... */
+		> 	}
+		> 	.fade-exit-done {
+		> 	 /* ... */
+		> 	}
+		> 	```
+		>
+		> - SwitchTransition：可以完成两个组件之间切换的动画效果，它有一个`mode`属性对应`in-out`表示新组件先进入旧组件再移除、`out-in`则与之相反。需要配合`CSSTransition`使用，且`CSSTransition`组件不再像以前那样接受`in`属性来判断元素是何种状态，取而代之的是`key`（string类型）属性，key来判断否需要触发动画。
+		>
+		> 	```jsx
+		> 		import { CSSTransition, SwitchTransition } from "react-transition-group";
+		> 	export default function AnimationExample(){
+		> 	   const [isOn, setIsOn] = useState(true);
+		> 	   return(
+		> 	   	<div>
+		> 	      <SwitchTransition mode="out-in">
+		> 	      	 <CSSTransition
+		> 	        	key={isOn ? "on" : "off"}
+		> 	        	timeout={500}
+		> 	        	classNames={'fade'}>
+		> 	        	<button onClick={()=>setIsOn(!isOn)}>
+		> 	            	{isOn ? "on": "off"}
+		> 	          	</button>
+		> 	      	</CSSTransition>。   	 
+		> 	      </SwitchTransition>
+		> 	    </div>
+		> 	  ) 
+		> 	}
+		> 	```
+		> 
+		>- TransitionGroup：用于列表项的过渡动画，它本身不提供任何形式的动画，同样需要配合CSSTransition使用。在处理上对于插入的节点先渲染dom、再执行动画，对于删除的节点先执行动画、在删除dom
 
