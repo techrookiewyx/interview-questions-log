@@ -195,8 +195,13 @@
 		   console.log(arg);  //输出 [3,4]
 		}
 		fn(1,2,3,4);
+		
+		// rest参数之后不能再有其他参数，否则会报错
+		function f(a, ...b, c) {
+		  // ...
+		}
 		```
-
+		
 		rest经常用于获取函数的多余参数，或者像处理函数参数个数不确定的情况
 20. Promise 中reject 和 catch 处理上有什么区别
 	- A：reject 是用来抛出异常，catch 是用来捕获和处理异常，reject 是 Promise 的方法，而 catch 是 Promise 实例的方法，reject的内容，一定会进入then中的第二个回调，如果then中没有写第二个回调，会直接进入catch而不会进入then的第二个回调
@@ -441,5 +446,19 @@
 		const allGreaterThan0 = numbers.every(num => num > 0);
 		console.log(allGreaterThan0); // 输出：true
 		```
+41. 下面代码会输出什么？
+	```js
+	const shape = {
+	  radius: 10,
+	  diameter() {
+	    return this.radius * 2
+	  },
+	  perimeter: () => 2 * Math.PI * this.radius
+	}
+	shape.diameter()
+	shape.perimeter()
+	```
 
-		
+	- A：20和NaN
+	- 解析：diameter()是一个常规函数，它的this指向最后调用它的对象（在该案例中是shape，shape有redius属性所以输出 10*2 ）。而perimeter()是一个箭头函数，箭头函数的this指向的是它当前周围作用域（简单来说是包含箭头函数的常规函数，如果没有常规函数的话就是全局对象，而window中没有radius所以为undefined）
+
