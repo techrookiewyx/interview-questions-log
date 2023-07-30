@@ -231,3 +231,13 @@
 		```html
 		<input type="file" name="files" multiple/>
 		```
+42. 主流浏览器内核私有属性 css 前缀？
+	- A：
+
+		>  mozilla 内核 （firefox,flock 等）    -moz  
+		>
+		>  webkit  内核 （safari,chrome 等）   -webkit  
+		>
+		>  opera   内核 （opera 浏览器）        -o  
+		>
+		>  trident 内核 （ie 浏览器）           -ms
