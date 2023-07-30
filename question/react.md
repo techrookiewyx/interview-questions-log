@@ -642,4 +642,9 @@
 		> 	```
 		> 
 		>- TransitionGroup：用于列表项的过渡动画，它本身不提供任何形式的动画，同样需要配合CSSTransition使用。在处理上对于插入的节点先渲染dom、再执行动画，对于删除的节点先执行动画、在删除dom
+42. 请说说什么是useEffect？
+	- A：它是一个Hook，让我们在渲染后运行一些代码使你的组件与 React 之外的一些系统同步等操作来处理副作用，`useEffect`会“延迟”一段代码的运行，直到该渲染反映在屏幕上，且默认情况下每次组件的重新渲染useEffect都会重新执行，useEffect 可以看做是 `componentDidMount/componentDidUpdate/componentWillUnmount` 这三个生命周期函数的替代
 
+		> 第一个参数是函数，第二个参数是依赖的数据数组，当配置依赖数组后只有当数组中数据发生变化时，才会使其重新执行。
+		>
+		> 它可以通过return返回一个清理函数，用于指定如何停止、撤消或清理它们正在做的任何事情（获取数据、发送请求），清理函数会在下一次Effect执行之前被调用，可以通过清理函数来清除上一次effect带来的副作用，类似与类组件中componentWillUnmount。
