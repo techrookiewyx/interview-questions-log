@@ -446,7 +446,7 @@
 		const allGreaterThan0 = numbers.every(num => num > 0);
 		console.log(allGreaterThan0); // 输出：true
 		```
-41. 下面代码会输出什么？
+42. 下面代码会输出什么？
 	```js
 	const shape = {
 	  radius: 10,
@@ -461,4 +461,28 @@
 
 	- A：20和NaN
 	- 解析：diameter()是一个常规函数，它的this指向最后调用它的对象（在该案例中是shape，shape有redius属性所以输出 10*2 ）。而perimeter()是一个箭头函数，箭头函数的this指向的是它当前周围作用域（简单来说是包含箭头函数的常规函数，如果没有常规函数的话就是全局对象，而window中没有radius所以为undefined）
+43. 简单介绍下ES6中的Iterator迭代器
 
+	- A：`Iterator` 是一种接口（或称为迭代器对象，本质就是一个指针对象），Iterator为为不同的数据结构提供统一的数据访问机制，比如for of就是依靠Iterator迭代器来实现的。
+
+		> Iterator对象具有一个`next`方法，每次调用 `next` 方法都会使其指向下一个成员并且会返回一个对象，包含两个属性，`value`（当前成员的值） 和 `done`（布尔值表示遍历是否结束）
+		>
+		> ```js
+		> //模拟next方法返回值
+		> function makeIterator(array) {
+		>   var nextIndex = 0;
+		>   return {
+		>     next: function() {
+		>       return nextIndex < array.length ?
+		>         {value: array[nextIndex++], done: false} :
+		>         {value: undefined, done: true}
+		>     }
+		>   }
+		> }
+		> ```
+		>
+		> 默认的 Iterator 接口部署在数据结构的`Symbol.iterator`属性（本身就是一个函数），只要对象中部署了`Symbol.iterator`属性那么这个对象就称为可迭代对象（就可以使用for-of来遍历）
+		>
+		> 原生具备 Iterator 接口的对象有：Array、String、Map、Set、函数的 arguments 对象、NodeList
+
+		在解构赋值、扩展运算符、yield*、以及一些以数组为参数的场合都会默认调用 Iterator 接口
