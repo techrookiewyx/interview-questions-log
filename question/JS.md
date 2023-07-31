@@ -425,3 +425,65 @@
 		> valueOf()偏向于运算，toString()偏向于显示。在有运算符操作的情况下valueOf()的优先级高于toString()
 42. mouseover 和 mouseenter 的区别？
 	- A：当鼠标移动到元素上时就会触发mouseenter事件，在功能上类似mouseove，它们两者之间的差别是mouseenter不具备事件冒泡的特性。由于mouseenter不支持事件冒泡，导致在一个元素的子元素上进入或离开的时候会触发其 mouseover 和 mouseout 事件，但是却不会触发 mouseenter 和 mouseleave 事件。
+43. Javscript数组的常用方法有哪些？
+
+	- A：
+
+		- 增
+
+			> 下面的前两种方法是破坏性的会改变原数组
+			>
+			> push()：该方法接收任意数量的参数，并将他们添加到数组的末尾，并返回新数组的长度
+			>
+			> unshift()：在数组开头添加任意多个值，然后返回新的数组长度
+			>
+			> concat()：用于合并两个或多个数组，并返回新的合并后的数组，不会修改原始数组
+
+		- 删
+
+			> 两种方法都会改变原数组
+			> pop()：删除数组中最后一个元素，并返回删除的元素
+			>
+			> shift()：删除数组中第一个元素，返回被删除的元素
+
+		- 两个特殊方法
+
+			> slice()：用于截取数组，并返回一个新数组，有两个参数第一个参数表示截取开始位置，第二个表示结束位置（截取结果不包括），也可以用于删除数组中元素
+			>
+			> ```js
+			> var b=[1,456,185,25,1,5];
+			> var ee =b.slice(0,2)  // [1,456]
+			> //当第二个参数省略 则默认到数组末尾元素
+			> var c = b.slice(3); // [25,1,5]
+			> ```
+			>
+			> splice()：可以用于添加、删除、修改数组，会破坏原数组。
+			>
+			> ```js
+			> //当只有两个参数时表示删除元素，第一个参数表示要删除的位置，第二个参数表示删除个数，返回删除的元素
+			> let colors = ["red", "green", "blue"];
+			> colors.splice(0,1);
+			> console.log(colors); // green,blue
+			> //添加时第一个参数指定添加位置，第二个参数为0，第三个参数为要插入的元素，此时返回一个空数组
+			> let colors = ["red", "green", "blue"];
+			> let removed = colors.splice(1, 0, "yellow", "orange")
+			> console.log(colors) // red,yellow,orange,green,blue
+			> console.log(removed) // []
+			> //替换时只需将第二个参数改为1即可，第三个参数表示要替换的元素，返回被替换的元素
+			> let colors = ["red", "green", "blue"];
+			> let removed = colors.splice(1, 1, "red", "purple"); // 插入两个值，删除一个元素
+			> console.log(colors); // red,red,purple,blue
+			> ```
+
+		- 查找
+
+			> - indexOf()：返回要查找元素在数组中的下标，若不存在则返回-1
+			> - includes()：检查数组是否包含指定元素，返回一个布尔值
+			> - find()：需要一个函数作为参数，返回数组中符合函数中规定的元素，是一个迭代方法
+
+		- 其他方法
+
+			> - reverse()：将数组反转，改变原数组
+			> - sort()：对数组进行排序，默认升序，可以通过指定一个函数作为参数来改变排序规则，改变原数组
+			> 	- join()：将数组中的元素拼接为字符串，默认每个元素用逗号连接，可以传递一个字符串作为参数来作为连接符
+			> - 以及一些迭代方法some()、every()、forEach()、filter()、map()
