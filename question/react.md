@@ -420,7 +420,6 @@
 		React会等到事件处理函数中的所有代码都运行完毕再处理你的state更新（UI才会更新），这也就意味着你可以在一个事件处理函数中同时更新多个state而不会触发多次重新渲染，这就是批处理。
 31. 什么是 Pure Components?
 	- A：React.PureComponent与React.Component 完全相同，只是它为你处理了 shouldComponentUpdate() 方法。当属性或状态发生变化时，PureComponent 将对属性和状态进行**浅比较**。另一方面，一般的组件不会将当前的属性和状态与新的属性和状态进行比较。因此，在默认情况下，每当调用shouldComponentUpdate时，默认返回 true，所以组件都将重新渲染。
-	
 32. 在 context 中默认值的目的是什么?
 	- A：当在组件树中的组件没有匹配到在其上方的 Provider 时，才会使用 defaultValue 参数。这有助于在不包装组件的情况下单独测试组件
 
@@ -463,7 +462,6 @@
 		> 	  }
 		> 	}
 		> 	```
-	
 34. 什么是调解?
 	- A：当组件的props或state发生更改时，React通过将新返回的元素与先前呈现的元素进行比较来确定是否需要实际的 DOM 更新。当它们不相等时，React 将更新DOM 。此过程称为调解。
 35. 说说对React refs 的理解？应用场景？
@@ -648,3 +646,46 @@
 		> 第一个参数是函数，第二个参数是依赖的数据数组，当配置依赖数组后只有当数组中数据发生变化时，才会使其重新执行。
 		>
 		> 它可以通过return返回一个清理函数，用于指定如何停止、撤消或清理它们正在做的任何事情（获取数据、发送请求），清理函数会在下一次Effect执行之前被调用，可以通过清理函数来清除上一次effect带来的副作用，类似与类组件中componentWillUnmount。
+43. 说说你对React Router的理解？常用的Router组件有哪些？ 
+
+	- A：`react-router`等前端路由的原理大致相同，可以实现无刷新的条件下切换显示不同的页面。其本质就是URL发生改变时页面显示结果根据URL的变化而改变，因此路由可以实现单页面应用（在一个html文件中进行内容切换渲染，你看见的其它页面都是js生成的， 地址栏url的变化是js去改变）
+
+		> react-router分为几个不同的包：
+		>
+		> 1. react-router：实现路由的核心功能
+		> 2. react-router-dom： 基于react-router，加入了在浏览器运行环境下的一些功能
+		> 3. react-router-native：基于 react-router，加入了 react-native 运行环境下的一些功能
+		> 4. react-router-config: 用于配置静态路由的工具库
+		>
+		> 常用组件：
+		>
+		> 1. BrowserRouter、HashRouter：Router中包含了url路径变化的监听，并且会将相应的路径传递给子组件。BrowserRouter使用的是history模式，HashRouter使用的是hash模式
+		> 2. Route：Route用于路径的匹配，然后进行组件的渲染，常用属性有：
+		> 	- path：用于设置匹配路径
+		> 	- component：当url与path匹配时要渲染什么组件
+		> 	- render：当url与path匹配时要渲染的内容
+		> 	- exact：开启精确匹配，只有url和path完全一致才会渲染对应组件
+		> 3.  Link、NavLink：通常路径的跳转是使用Link组件，最终会被渲染成`a`元素，其中属性`to`代替`a`标题的`href`属性。`NavLink`是在`Link`基础之上增加了一些样式属性，比如当某个组件选中时为链接设置被激活的状态样式以及类名
+		> 3.  redirect：用于路由的重定向，当这个组件出现时，就会执行跳转到对应的`to`路径中
+		>
+		> 常用常用hook：
+		>
+		> 1. useParams：获取获取URL中携带过来的params参数
+		>
+		> 	```jsx
+		> 	<Routes>
+		> 	 <Route path='about/:id' element=<About/> />
+		> 	</Routes>
+		> 	
+		> 	function About(){
+		> 	  const{id} = useParams();  //获取url中以id定义为参数的值
+		> 	}
+		> 	```
+		>
+		> 2. useLocation：用于获取当前路径的信息，它返回一个包含pathname、search等属性的对象
+		>
+		> 路由传递参数主要分为三种形式：
+		>
+		> - 动态路由的方式：指路由中的路径并不固定，如比path在Route匹配时写成`/detail/:id`，那么 `/detail/abc`、`/detail/123`都可以匹配到该Route
+		> - search传递参数：在跳转的路径中添加了一些查询字符串
+		> - 在Link组件的to中传入一个包含url信息的对象
