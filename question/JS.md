@@ -487,3 +487,53 @@
 			> - sort()：对数组进行排序，默认升序，可以通过指定一个函数作为参数来改变排序规则，改变原数组
 			> 	- join()：将数组中的元素拼接为字符串，默认每个元素用逗号连接，可以传递一个字符串作为参数来作为连接符
 			> - 以及一些迭代方法some()、every()、forEach()、filter()、map()
+44. ajax原理是什么？如何实现？
+
+	- A：AJAX全称Async Javascript and XML表示异步的JavaScript和XML，是一种创建交互式网页应用的网页开发技术，可以在不重新加载整个网页的情况下（不用刷新网页），与服务器交互数据，并更新页面中部分内容。
+
+		> 实现过程：
+		>
+		> - 创建Ajax的核心对象XMLHttpRequest对象
+		>
+		> 	```js
+		> 	const xhr = new XMLHttpRequest();
+		> 	```
+		>
+		> - 通过 `XMLHttpRequest` 对象的 `open()` 方法与服务端建立连接
+		>
+		> - 构建请求所需的数据内容，并通过` XMLHttpRequest` 对象的 `send()` 方法发送给服务器端
+		>
+		> 	```js
+		> 	xhr.send([body]);
+		> 	//body表示发送的请求体数据，若不传递默认为null
+		> 	//当发送请求的方法为GET时，要将请求数据添加到open()方法中的url地址中。发送请求数据中的send()方法中参数设置为null
+		> 	```
+		>
+		> - 通过`onreadystatechange` 事件监听服务器端你的通信状态，他会监听实例对象的readyState属性的状态，每次状态改变都会触发事件
+		>
+		> 	> 主要有五个状态码：
+		> 	>
+		> 	> 1. 0表示open方法未被调用
+		> 	> 2. 1表示send方法未被调用
+		> 	> 3. 2表示send方法调用，响应头和状态码返回
+		> 	> 4. 3表示获取响应的数据体
+		> 	> 5. 表示整个请求完成数据以接收，或本次接收失败
+		>
+		> - 接受并处理服务端向客户端响应的结果，通过`responseText`属性接收服务器端的响应结果
+		>
+		> - 将响应的数据或结果更新到页面中
+		>
+		> ```js
+		> const request = new XMLHttpRequest()
+		> request.onreadystatechange = function(e){
+		>     if(request.readyState === 4){ // 整个请求过程完毕
+		>         if(request.status >= 200 && request.status <= 300){
+		>             console.log(request.responseText) // 服务端返回的结果
+		>         }else if(request.status >=400){
+		>             console.log("错误信息：" + request.status)
+		>         }
+		>     }
+		> }
+		> request.open('POST','http://xxxx')
+		> request.send()
+		> ```
