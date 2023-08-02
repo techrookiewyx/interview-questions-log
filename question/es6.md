@@ -470,14 +470,14 @@
 		> ```js
 		> //模拟next方法返回值
 		> function makeIterator(array) {
-		>   var nextIndex = 0;
-		>   return {
-		>     next: function() {
-		>       return nextIndex < array.length ?
-		>         {value: array[nextIndex++], done: false} :
-		>         {value: undefined, done: true}
+		>    var nextIndex = 0;
+		>    return {
+		>      next: function() {
+		>        return nextIndex < array.length ?
+		>          {value: array[nextIndex++], done: false} :
+		>          {value: undefined, done: true}
+		>        }
 		>     }
-		>   }
 		> }
 		> ```
 		>
@@ -486,3 +486,21 @@
 		> 原生具备 Iterator 接口的对象有：Array、String、Map、Set、函数的 arguments 对象、NodeList
 
 		在解构赋值、扩展运算符、yield*、以及一些以数组为参数的场合都会默认调用 Iterator 接口
+44. 下边代码会输出什么？
+
+	```js
+	const obj = { 1: 'a', 2: 'b', 3: 'c' }
+	const set = new Set([1, 2, 3, 4, 5])
+	obj.hasOwnProperty('1')
+	obj.hasOwnProperty(1)
+	set.has('1')
+	set.has(1)
+	```
+
+	- A：true` `true` `false` `true
+
+	- 解析：
+
+		> 所有对象的键（不包括 Symbol）在底层都是字符串，即使你自己没有将其作为字符串输入也会自动被转换为字符串。这就是为什么 `obj.hasOwnProperty('1')` 也返回 `true`。
+		>
+		> 对于集合，它不是这样工作的。在我们的集合中没有 `'1'`：`set.has('1')` 返回 `false`。它有数字类型为 `1`，`set.has(1)` 返回 `true`。
