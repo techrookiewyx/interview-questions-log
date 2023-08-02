@@ -689,3 +689,21 @@
 		> - 动态路由的方式：指路由中的路径并不固定，如比path在Route匹配时写成`/detail/:id`，那么 `/detail/abc`、`/detail/123`都可以匹配到该Route
 		> - search传递参数：在跳转的路径中添加了一些查询字符串
 		> - 在Link组件的to中传入一个包含url信息的对象
+
+44. 说说React Router有几种模式？实现原理？
+
+	- A：在单页面应用中，一个web项目只有一个html页面，一旦页面加载完成之后，就不用因为用户的操作而进行页面的重新加载或者跳转。
+
+		> 路由描述了URL与组件之间的映射关系，这种映射是单向的，即URL变化导致渲染不同的组件
+		>
+		> 特性如下：
+		>
+		> - 改变url也不会让浏览器向服务器发送请求
+		> - 可以在不刷新页面的前提下动态改变浏览器地址栏中的URL地址
+		>
+		> React中路由分为两种模式：
+		>
+		> - hash模式：hash模式会在url后面加上#，如http://127.0.0.1:5500/home/#/page1。
+		> 	hash值的改变会触发window对象上的`hashchange` 事件，hash模式就是利用`hashchange` 事件监听`hash`值的变化来改变`URL` ，通过`context`将`location`数据往后代组件传递，通过props将Route组件中的path与location.pathname进行匹配，来决定是否渲染组件
+		> - history模式：允许操作浏览器曾经在标签页或者框架里访问的会话历史记录
+		> 	通过使用history对象+h5的pushState实现的（route组件通过listen监听路由变化）
