@@ -707,3 +707,15 @@
 		> 	hash值的改变会触发window对象上的`hashchange` 事件，hash模式就是利用`hashchange` 事件监听`hash`值的变化来改变`URL` ，通过`context`将`location`数据往后代组件传递，通过props将Route组件中的path与location.pathname进行匹配，来决定是否渲染组件
 		> - history模式：允许操作浏览器曾经在标签页或者框架里访问的会话历史记录
 		> 	通过使用history对象+h5的pushState实现的（route组件通过listen监听路由变化）
+45. react-router 里的 \<Link> 标签和 \<a> 标签有什么区别？
+	- A：
+
+		- 对比 \<a> 标签，Link避免了不必要的重新渲染。react-router接管了其默认的链接跳转行为，与传统的页面跳转有区别的是，Link的跳转只会触发相匹配的对应的页面内容更新，而不会刷新整个页面。
+
+			> Link 做了三件事情：
+			>
+			> 1. 有click事件绑定，就执行对应处理函数
+			> 2. 阻止a标签默认事件
+			> 3. 根据跳转href，用history跳转，此时只是链接变了，并没有刷新页面
+
+		- 而\<a>就是普通超链接标签，用于从当前页面跳转到href指向的另一个页面
