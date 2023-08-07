@@ -534,3 +534,16 @@
 			> - 不可遍历，且没有size属性，无法使用clear()清空，只有get()、set()、has()、delete()四个方法可用
 			>
 			> WeakMap的使用场合就是，它的键所对应的对象，可能会在将来消失，WeakMap有助于防止内存泄漏。
+46.  ES6中的Array方法some和every有什么作用？
+
+	- A：ES6中的Array方法some用于判断数组中是否存在满足条件的元素，只要有一个元素满足条件即返回true；every用于判断数组中所有元素是否都满足条件，只有所有元素都满足条件才返回true。
+
+		```js
+		const numbers = [1, 2, 3, 4, 5];
+		// 使用some判断是否存在大于3的元素
+		const res = numbers.some(num => num > 3);
+		console.log(res); // 输出：true
+		//使用every判断是否所有元素都大于1
+		const res1 = numbers.every(num => num > 1);
+		console.log(res); // 输出：false
+		```
