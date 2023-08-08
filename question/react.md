@@ -726,3 +726,12 @@
 		  <h1>{`Hello ${data.target}`}</h1>
 		)}/>
 		```
+47. 说说React render方法的原理？在什么时候会被触发？
+	- A：
+
+		- render在类组件和函数组件中存在的像是不同，在类数组中指的是render方法、在函数组件中指函数本身，在render中我们编写jsx并且最终由babel编译转化为浏览器可识别的js。render过程中，React将新调用的render函数返回的树与旧树进行比较，来判断是否需要更新DOM，然后进行diff比较更新DOM树。
+		- 类组件中通过setState修改状态、函数组件中通过useState返回的第二个参数来更新状态触发render
+
+		> render函数里面编写JSX，并转换为createElemet这种形式，最终转化为真实DOM。React中类组件只要通过setState方法修改状态默认情况下都会使render方法执行，函数组件使用useState更改状态不一定会导致render重新执行（useState会判断当前值有无发生改变）。
+		>
+		> 其次props的改变不一定触发render的执行，但是如果props的值来自于父组件或者祖先组件的state，在这种情况下，父组件或者祖先组件的state发生了改变，就会导致子组件的重新渲染。
