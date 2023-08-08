@@ -547,3 +547,17 @@
 		const res1 = numbers.every(num => num > 1);
 		console.log(res); // 输出：false
 		```
+47. 下面代码输出什么？
+
+	```js
+	function sayHi() {
+	  console.log(name)
+	  console.log(age)
+	  var name = 'Lydia'
+	  let age = 21
+	}
+	sayHi()
+	```
+
+	- A：输出 undefined 和 ReferenceError
+	- 解析：在函数内部，我们通过var声明了name变量，var声明的变量会发生提升现象（内存空间在创建阶段就创建了），直到初始化之前其值为undefined，所以我们在name赋值之前打印此变量为undefined。虽然let和const也会发生变量提升现象，但由于暂时性死锁的缘故，它们声明的变量不会像var一样赋一个像undefined一样初始值，当我们试图在声明之前访问它们时，JavaScript 将会抛出一个 `ReferenceError` 错误。
