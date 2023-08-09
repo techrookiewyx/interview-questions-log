@@ -735,3 +735,31 @@
 		> render函数里面编写JSX，并转换为createElemet这种形式，最终转化为真实DOM。React中类组件只要通过setState方法修改状态默认情况下都会使render方法执行，函数组件使用useState更改状态不一定会导致render重新执行（useState会判断当前值有无发生改变）。
 		>
 		> 其次props的改变不一定触发render的执行，但是如果props的值来自于父组件或者祖先组件的state，在这种情况下，父组件或者祖先组件的state发生了改变，就会导致子组件的重新渲染。
+48. 如何有条件地渲染组件?
+
+	- A：在某些情况下，我们会根据某些状态渲染不同的组件。 JSX不会渲染false或undefined，因此使用 `&&` 运算符，在某个条件为 true 时，渲染组件中指定的内容。
+
+		```jsx
+		const MyComponent = ({ name, address }) => (
+		  <div>
+		    <h2>{name}</h2>
+		    {address &&
+		      <p>{address}</p>
+		    }
+		  </div>
+		)
+		```
+
+		对于判断而言我们可以使用if-else，也可以使用三元运算符
+
+		```jsx
+		const MyComponent = ({ name, address }) => (
+		  <div>
+		    <h2>{name}</h2>
+		    {address
+		      ? <p>{address}</p>
+		      : <p>{'Address is not available'}</p>
+		    }
+		  </div>
+		)
+		```
