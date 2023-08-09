@@ -378,3 +378,5 @@
 		> context-box：W3C的标准盒子模型，设置元素的 height/width 属性指的是元素content部分的高/宽
 		>
 		> border-box：IE传统盒子模型，设置元素的height/width属性指的是border + padding + content部分的高/宽
+48. width:auto 和 width:100%的区别
+	- A：通常情况下，width:100%会使元素box的宽度等于父元素的content box的宽度，width:auto会使元素撑满整个父元素，margin、border、padding、content区域会自动分配水平空间。
