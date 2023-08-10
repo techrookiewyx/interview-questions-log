@@ -621,3 +621,30 @@
 		> - 通常轮询分为基于定时器和递归实现轮询。基于定时器的轮询使用 setInterval() 方法来定时发送请求，而基于递归的轮询则使用 setTimeout() 方法来控制下一次请求的时间
 		> - 缺点：产生大量的无效请求，浪费带宽和服务器资源，且对服务器压力较大。同时，在短时间内频繁地发送请求可能会被服务器视为恶意行为，导致 IP 被封禁等问题
 		> - 避免：可以使用WebSocket（能够实现服务器与客户端之间的实时通信）或SSE（可以实现服务器向客户端推送实时数据）等技术来避免轮询的缺点实现实时更新数据
+49. e.target 和 e.currentTarget 有什么区别
+
+	- A：给几个div元素绑定事件，且`addEventListener`第三个参数不设置，然后点击d元素，则默认为冒泡
+
+		```js
+		const a = document.getElementById('a');
+		const b = document.getElementById('b');
+		const c = document.getElementById('c');
+		a.addEventListener('click', (e) => {
+		  console.log(`target是${e.target.id}`)
+		  console.log(`currentTarget是${e..currentTarget.id}`)
+		})
+		b.addEventListener('click', (e) => {
+		  console.log(`target是${e.target.id}`)
+		  console.log(`currentTarget是${e..currentTarget.id}`)
+		})
+		c.addEventListener('click', (e) => {
+		  console.log(`target是${e.target.id}`)
+		  console.log(`currentTarget是${e..currentTarget.id}`)
+		})
+		//输入结果为
+		//target是d currentTarget是d
+		//target是d currentTarget是c
+		//target是d currentTarget是b
+		```
+
+		由此可见e.target指的是**触发**事件的元素，e.currentTarget指的是**绑定**事件的元素
