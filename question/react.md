@@ -763,3 +763,7 @@
 		  </div>
 		)
 		```
+49. Router中history的 `push()` 和 `replace()` 方法的目的是什么?
+	- A：一个 history 实例有两种导航方法`push()`、`push()`。如果您将 history 视为一个访问位置的数组，则`push()`将向数组添加一个新位置，`replace()`将用新的位置替换数组中的当前位置。
+	
+		> React Router是`history`库的包装器，它处理浏览器的`window.history`与浏览器和哈希历史的交互。它还提供了内存历史记录，这对于没有全局历史记录的环境非常有用，例如移动应用程序开发（React Native）和使用 Node 进行单元测试。
