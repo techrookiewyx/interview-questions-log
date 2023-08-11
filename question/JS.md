@@ -648,3 +648,6 @@
 		```
 
 		由此可见e.target指的是**触发**事件的元素，e.currentTarget指的是**绑定**事件的元素
+
+50. 如何获取安全的undefined值？
+	- A：因为undefined是一个标识符，所以可以被当作变量来使用和赋值，但是这样会影响我们对undefined的正常判断。表达式 void ___ 没有返回值，因此返回结果是undefined。void并不改变表达式的结果，只是让表达式不返回值，所以我们用void 0来获得undefined。
