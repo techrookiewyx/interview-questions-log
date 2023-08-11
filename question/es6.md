@@ -590,5 +590,25 @@
 		  }
 		}
 		```
+50. 下列哪一个选项的值时无效的？
 
-50. 
+	```js
+	const bird = {
+	  size: 'small'
+	}
+	
+	const mouse = {
+	  name: 'Mickey',
+	  small: true
+	}
+	```
+
+	A: mouse.bird.size     B: mouse[bird.size]     C: mouse[bird["size"]]    D: All of them are valid
+
+	- A：A是无效的
+
+	- 解析：在JS中所有对象的key都是字符串（除了Symbol），尽管我们可能不会定义它们为字符串，但它们在底层总会被转换为字符串。使用括号时JS会解释语句，它首先看到第一个开始括号 `[` 并继续前进直到找到结束括号 `]`。
+
+		> `mouse[bird.size]`：首先计算 `bird.size`，这会得到 `small`。`mouse["small"]` 返回 `true`。
+		>
+		> 如果使用`.`的话则不会发生上述情况，mouse 没有 bird 这个 key，这也就意味着 mouse.bird 是 undefined。然后当我们使用点语法 mouse.bird.size 时，因为 mouse.bird 是 undefined，这也就变成了 undefined.size。这个行为是无效的，并且会抛出一个错误类似 Cannot read property "size" of undefined。
