@@ -612,3 +612,17 @@
 		> `mouse[bird.size]`：首先计算 `bird.size`，这会得到 `small`。`mouse["small"]` 返回 `true`。
 		>
 		> 如果使用`.`的话则不会发生上述情况，mouse 没有 bird 这个 key，这也就意味着 mouse.bird 是 undefined。然后当我们使用点语法 mouse.bird.size 时，因为 mouse.bird 是 undefined，这也就变成了 undefined.size。这个行为是无效的，并且会抛出一个错误类似 Cannot read property "size" of undefined。
+51. ES6中的Array.prototype方法中，find()和findIndex()有什么区别？
+
+	- A：find()方法用于找到数组中第一个满足条件的元素，并返回该元素，如果不存在符合条件的元素则返回undefined。findIndex()方法用于找到数组中第一个满足条件的元素的索引，并返回该索引，如该元素不存在则返回-1。
+
+		```js
+		const numbers = [1, 2, 3, 4, 5];
+		
+		// 使用find()
+		const foundElement = numbers.find(num => num > 3);
+		console.log(foundElement); // 输出：4
+		// 使用findIndex()
+		const foundIndex = numbers.findIndex(num => num > 3);
+		console.log(foundIndex); // 输出：3
+		```
