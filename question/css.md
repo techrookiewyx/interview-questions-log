@@ -293,8 +293,8 @@
 	- A：CSS动画是指元素从一种样式逐渐转换为另一种样式的过程，常见的动画效果有很多如平移、旋转、缩放等，复杂动画是简单动画的组合。在CSS中实现动画效果的方式如下：
 
 		> 1. transition：通过过渡来实现动画其属性有transition-property（规定需要变化的css属性）、transition-duration（设置过渡效果执行时间）、timing-function（完成效果的速度曲线）以及ransition-delay（过渡效果的延迟）
-		> 2. transform：变形四个常用的功能translate位移、scale缩放、rotate旋转、skew倾斜，需要配合transition来使用
-		> 3. animation：通过自定义动画，与其他两种方式不同，动画需要设置关键帧（通过@keyframes来定义）
+		> 2. transform：变形四个常用的功能translate位移、scale缩放、rotate旋转、skew倾斜，需要配合transition来使用，`transform`不支持`inline`元素，使用前把它变成block
+		> 3. animation：通过自定义动画，与其他两种方式不同，动画需要设置关键帧（通过@keyframes来定义）。其属性有animation-name（通过@keyframes定义的名称）、animation-duration（设定动画完成一个周期所需要时间）、animation-timing-function、animation-delay、animation-iteration-count（指定动画播放的次数）、animation-play-state（设置动画执行状态）、animation-fill-mode（指定动画填充模式）
 36. 在网页中应该使用奇数还是偶数的字体？为什么呢？
 	- A：应该使用偶数字体，原因如下：
 		1. 偶数字号相对更容易和web设计的其他部分构成比例关系。比如：当我用了14px的正文字号，我可能会在一些地方用14 ×0.5=7px的margin，在另一些地方用14×1.5=21px的标题字号
@@ -402,3 +402,30 @@
 	- A：使用通配符`*`（*{padding:0;margin:0;}）这样的写法虽然简单，但通配符会把所有的标签都遍历一遍来应用其配置的样式，当网站过大时样式比较多，这样写就大大的加重了网站运行的负载，使得网站的加载时间变得缓慢。
 
 		> 处于对浏览器性能的考虑，并不是所有标签都有padding和margin默认值，因此只需对有默认padding和margin的元素初始化即可，并不需使用通配符*来初始化
+52. Atom CSS 是什么？
+
+	- A：Atom CSS（原子CSS），指的是一个类只干一件事情，原子CSS就是拆分，所有CSS类都有一个唯一的CSS规则
+
+		```css
+		.w-full{
+		  width:100%;
+		}
+		.h-full{
+		  height:100%;
+		}
+		/*这样的就不属于*/
+		w&h-full{
+		  width:100%; height:100%;
+		}
+		```
+
+		> 优点：
+		>
+		> - 减少了css体积，提高了css复用
+		> - 减少起名的复杂度
+		>
+		> 缺点：
+		>
+		> - 增加记忆难度，需要记住一些class才能编写
+		> - 增加了html结构的复杂性。会导致整个dom中都是这样class名，带来调试的麻烦，有的时候很难定位具体css问题
+		> - 扔需要起类名，当需要某一个属性时需要设定不一样的参数值，例如left，top，这时候你还需要起一个class名
