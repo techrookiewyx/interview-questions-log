@@ -790,3 +790,33 @@
 		使用useEffect时，应该确保其内部使用的所有变量都在依赖项中被显示声明，否则可能会导致不必要的重新渲染或者无法获取最新的状态。
 51. 在 React 中什么是渲染劫持?
 	- A：渲染劫持的概念是控制一个组件将从另一个组件输出什么的能力。实际上，这意味着你可以通过将组件包装成高阶组件来装饰组件。通过包装，你可以注入额外的属性或产生其他变化，这可能会导致渲染逻辑的更改。实际上它不支持劫持，但通过使用 HOC，你可以使组件以不同的方式工作。
+
+52. 说说你是如何提高组件的渲染效率的？在React中如何避免不必要的render？
+
+	- A：React基于虚拟DOM和diff的配合，实现了对DOM最小粒度的更新，通常这就足以满足日常业务，但一些复杂场景下，仍需要一些措施来提升运行性能，避免不必要的渲染。通常当我们修改组件的状态时会触发组件的重新渲染，父组件的重新渲染也会导致子组件重新渲染，即使子组件在本次渲染过程中的相关state和props没有发生变化。
+
+		> 可以通过一些方法来使子组件避免这些无谓的渲染如：
+		>
+		> - shouldComponentUpdate：通过shouldComponentUpdate生命周期函数来比对 `state `和 `props`，确定是否要重新渲染。默认情况下返回true表示重新渲染，如果不希望组件重新渲染，返回false即可
+		>
+		> - PureComponent：与shouldComponentUpdate原理基本一致，当属性或状态发生变化时，PureComponent 将对属性和状态进行**浅比较**，来决定是否重新渲染
+		>
+		> - React.memo：它本质上是一个高阶组件，让该函数组件具备了可以跳过本次渲染的效果，当子组件中props没有发生变化时可以跳过本次渲染
+		>
+		> 	```jsx
+		> 	//当props没有发生变化时，不会重新渲染
+		> 	import { memo } from 'react';
+		> 	function Button(props) {
+		> 	  // Component code
+		> 	}
+		> 	export default memo(Button);
+		> 	
+		> 	//如果需要深层次比较，这时候可以给memo第二个参数传递比较函数
+		> 	function arePropsEqual(prevProps, nextProps) {
+		> 	  // some code
+		> 	  return prevProps === nextProps;
+		> 	}
+		> 	
+		> 	export default memo(Button, arePropsEqual);
+		> 	```
+
