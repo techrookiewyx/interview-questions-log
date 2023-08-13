@@ -626,3 +626,9 @@
 		const foundIndex = numbers.findIndex(num => num > 3);
 		console.log(foundIndex); // 输出：3
 		```
+52. 什么是ES6中的Promise.all()和Promise.race()，有什么区别？
+	- A：Promise.all()和Promise.race()都是用于处理多个Promise对象的静态方法，他们都需要一个Promise数组作为参数。
+
+		> Promise.all()会在数组中所有Promise对象都完成后返回一个新的Promise对象，其结果是一个包含所有结果的数组，但在处理多个promise过程中有任何一个promise变为reject，则会返回该reject的结果
+		>
+		> Promise.race()在其中任何一个Promise对象完成后，它就会返回一个新的Promise对象，其结果由第一个的Promise的结果而定。
