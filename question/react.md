@@ -810,13 +810,14 @@
 		> 	  // Component code
 		> 	}
 		> 	export default memo(Button);
-		> 	
+		> 			
 		> 	//如果需要深层次比较，这时候可以给memo第二个参数传递比较函数
 		> 	function arePropsEqual(prevProps, nextProps) {
 		> 	  // some code
 		> 	  return prevProps === nextProps;
 		> 	}
-		> 	
+		> 			
 		> 	export default memo(Button, arePropsEqual);
 		> 	```
-
+53. 回调函数作为 `setState()` 参数的目的是什么?
+	- A：当 setState执行完成和组件渲染后，回调函数将会被调用，可以获取到state的最新值。由于 `setState()` 是异步的，回调函数用于任何后续的操作，但是建议使用生命周期方法而不是此回调函数。
