@@ -433,3 +433,8 @@
 	- A：
 		- 外层div使用相对定位，高度要求自适应的div使用绝对定位并设置其定位属性在上、右、下、左分别是 100px  0  0  0
 		- 使用flex布局，设置主轴为竖轴（flex-direction：column），第二个div的flex-grow为1。
+54. CSS 多列等高如何实现？
+	- A：
+		- 利用padding-bottom/margin-bottom正负值相抵，设置父容器设置超出隐藏（overflow: hidden），这样父容器的高度就还是它里面的列没有设定padding-bottom时的高度，当它里面的任一列高度增加了，则父容器的高度被撑到里面最高那列的高度，其余其他高度不够的元素可以使用padding-bottom补偿这部分高度差。
+		- 利用table-cell来让所有单元格高度都相等，来实实现多列等高
+		- 通过flex布局中容器的align-items属性为stretch，当元素的高度未设置或为auto时，可达到多列等高
