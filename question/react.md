@@ -810,14 +810,28 @@
 		> 	  // Component code
 		> 	}
 		> 	export default memo(Button);
-		> 			
+		> 					
 		> 	//如果需要深层次比较，这时候可以给memo第二个参数传递比较函数
 		> 	function arePropsEqual(prevProps, nextProps) {
 		> 	  // some code
 		> 	  return prevProps === nextProps;
 		> 	}
-		> 			
+		> 					
 		> 	export default memo(Button, arePropsEqual);
 		> 	```
 53. 回调函数作为 `setState()` 参数的目的是什么?
 	- A：当 setState执行完成和组件渲染后，回调函数将会被调用，可以获取到state的最新值。由于 `setState()` 是异步的，回调函数用于任何后续的操作，但是建议使用生命周期方法而不是此回调函数。
+54. 在 React 中如何使用 innerHTML?
+	- A：可以使用dangerouslySetInnerHTML属性实现，该属性是React用来代替在浏览器DOM中使用innerHTML。与innerHTML一样有被XSS（跨站脚本攻击）攻击的风险，使用时，需传递以 `__html` 作为键，而 HTML 文本作为对应值的对象。
+
+		```jsx
+		function createMarkup() {
+		  return <h1>First &middot; Second</h1>
+		}
+		
+		function MyComponent() {
+		  return <div dangerouslySetInnerHTML={{__html:createMarkup()}} />
+		}
+		```
+
+
